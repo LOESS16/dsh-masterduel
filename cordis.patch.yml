@@ -1,0 +1,4 @@
+# dsh-masterduel bundle patch
+- insert:
+    - id: dsh-masterduel
+      name: 'dsh-masterduel'

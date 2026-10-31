@@ -1,0 +1,35 @@
+{
+  "name": "dsh-masterduel",
+  "version": "0.2.0",
+  "description": "Master Duel panel for DSH: card lookup, related cards and deck check, backed by the master-duel-ai-advisor MCP server.",
+  "type": "module",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "author": "dsh-masterduel contributors",
+  "repository": { "type": "git", "url": "https://github.com/LOESS16/dsh-masterduel" },
+  "homepage": "https://github.com/LOESS16/dsh-masterduel#readme",
+  "bugs": { "url": "https://github.com/LOESS16/dsh-masterduel/issues" },
+  "keywords": ["dsh", "dsh-plugin", "master-duel", "yugioh", "mcp"],
+  "files": ["lib", "cordis.patch.yml", "README.md", "INSTALL.md", "LICENSE"],
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/deck.test.mjs test/hand-odds.test.mjs",
+    "check": "node --check lib/index.js && node --check lib/hand-odds.js && node --check lib/mcp-client.js && node --check lib/deck.js",
+    "verify": "node scripts/verify-package.mjs"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}
