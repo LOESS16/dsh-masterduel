@@ -18,6 +18,13 @@ test('parseDeck accepts the official YDKE example', () => {
   assert.equal(total, 4);
 });
 
+test('parseDeck ignores pasted deck-count lines', () => {
+  for (const text of ['43\n1', '43、1', '43 1', '43\n1\n2']) {
+    const parsed = parseDeck(text);
+    assert.equal(parsed.unknown.length, 0, `unexpected unknown for ${JSON.stringify(text)}: ${parsed.unknown.join(',')}`);
+  }
+});
+
 test('parseDeck accepts plain card-list text', () => {
   const parsed = parseDeck('3 灰流丽\n1 增援');
   assert.equal(parsed.sections.main.length, 2);

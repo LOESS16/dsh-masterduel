@@ -1,7 +1,9 @@
 # dsh-masterduel
 
-Master Duel panel for DeepSeek Harness: card lookup, "related cards", and deck
-check, backed by the [`master-duel-ai-advisor`](https://github.com/BettTer/master-duel-ai-advisor)
+Master Duel panel for DeepSeek Harness: card lookup, AI-assisted effect
+search, related cards, a deck builder with favorites and drag-and-drop, and
+deck check, backed by the
+[`master-duel-ai-advisor`](https://github.com/BettTer/master-duel-ai-advisor)
 MCP server.
 
 The panel has four tabs:
@@ -11,12 +13,18 @@ The panel has four tabs:
   recent-card thumbnails, related cards (text mention / same archetype / alias)
   with one-click add to deck, and card images (YGOPRODeck, Master Duel Chinese,
   or Master Duel Meta alt art) with automatic source fallback and retry.
+  AI 智能查卡 supports highlighted query/loading state, abort, strict re-rank
+  (attribute-change and extra-Normal-Summon queries get local card-text
+  verification), and named snapshots of results.
 - **构建**: three-column main/extra/side builder with deck stats, type dots,
-  level badges, smart fill from real-deck inclusion rates, opening-hand testing
-  through the EDOPro engine (先手实测, 5 cards, 3/5/10 hands or a specified hand,
-  sorted by value, with auto tiers), exact 先手 5 / 后手 6 opening probabilities
-  through hand_odds (先后手概率, with editable auto rules), AI review of those
-  samples, manual saves (export / import / diff / two-save compare), undo, and YDK / YDKE export.
+  level/ATK/DEF badges, per-card favorite ☆, collapsible favorites panel with
+  drag-to-deck, drag-and-drop between main/extra/side (one copy per drag),
+  smart fill from real-deck inclusion rates, opening-hand testing through the
+  EDOPro engine (先手实测, 5 cards, 3/5/10 hands or a specified hand, sorted by
+  value, with auto tiers), exact 先手 5 / 后手 6 opening probabilities through
+  hand_odds (先后手概率, with editable auto rules), AI review of those samples,
+  manual saves (export / import / diff / two-save compare), undo, and YDK / YDKE
+  export.
 - **排行**: deck-type rankings (power / tournament / ladder), series by release
   date, real-deck breakdown with main/extra filters, click-through to a deck.
 - **卡组检查**: YDK / YDKE / card-list checking with stat cards, a full card
@@ -24,9 +32,9 @@ The panel has four tabs:
   `?tab=deck&deck=…` deep links.
 
 
-This is the skeleton: a host plugin that serves a self-contained panel under
-`/dsh-masterduel/panel` and proxies the MCP tools. A native DSH client plugin
-(settings page / sidebar) can wrap the same routes later.
+This is a host plugin that serves a self-contained panel under
+`/dsh-masterduel/panel` and proxies the MCP tools. The client entry appears in
+the DSH sidebar and opens the same panel.
 
 ## Layout
 
@@ -56,7 +64,7 @@ test/smoke.mjs        standalone check: lookup + related
 
 ## Offline install
 
-If GitHub is unavailable, use the distributed `dsh-masterduel-0.2.0.zip`
+If GitHub is unavailable, use the distributed `dsh-masterduel-0.3.0.zip`
 (SHA256 in `SHA256.txt` next to it) and follow `INSTALL.md`. It contains the
 same `package.json`, `lib/`, `cordis.patch.yml`, README, LICENSE and install notes.
 

@@ -31,7 +31,7 @@ for (const file of files) {
 const bytes = [...files].reduce((sum, file) => sum + statSync(join(root, file)).size, 0);
 if (!pkg.name || !pkg.version) errors.push('package.json missing name/version');
 if (!Array.isArray(pkg.files) || !pkg.files.includes('lib')) errors.push('package.json files must include lib');
-if (pkg.version !== '0.2.0') errors.push(`unexpected version ${pkg.version}`);
+if (!/^\d+\.\d+\.\d+(?:[-+].+)?$/.test(String(pkg.version))) errors.push(`invalid version ${pkg.version}`);
 
 console.log(`package ${pkg.name}@${pkg.version}`);
 console.log(`lib files: ${files.size}, ${(bytes / 1024).toFixed(1)} KB`);

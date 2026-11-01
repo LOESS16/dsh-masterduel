@@ -1,6 +1,6 @@
 {
   "name": "dsh-masterduel",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Master Duel panel for DSH: card lookup, related cards and deck check, backed by the master-duel-ai-advisor MCP server.",
   "type": "module",
   "main": "lib/index.js",
@@ -10,7 +10,7 @@
   "homepage": "https://github.com/LOESS16/dsh-masterduel#readme",
   "bugs": { "url": "https://github.com/LOESS16/dsh-masterduel/issues" },
   "keywords": ["dsh", "dsh-plugin", "master-duel", "yugioh", "mcp"],
-  "files": ["lib", "cordis.patch.yml", "README.md", "INSTALL.md", "LICENSE"],
+  "files": ["lib", "cordis.patch.yml", "README.md", "INSTALL.md", "LICENSE", "CHANGELOG.md"],
   "exports": {
     ".": "./lib/index.js",
     "./client": "./lib/client.js",

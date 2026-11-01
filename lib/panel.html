@@ -22,8 +22,18 @@
   button.ghost { background:var(--panel); color:var(--text); border:1px solid var(--line); border-radius:8px; padding:6px 12px; cursor:pointer; }
   .card { border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin:12px 0; background:var(--panel); }
   .card h3 { margin:0 0 6px; font-size:14px; }
-  .card-head { display:flex; gap:12px; align-items:flex-start; }
-  .card-img { width:96px; flex:none; border-radius:6px; border:1px solid var(--line); cursor:zoom-in; }
+  .ai-query-banner { margin:0 0 14px; padding:12px 14px; border:1px solid var(--accent); border-radius:12px; background:linear-gradient(135deg, rgba(232,200,122,.16), rgba(232,200,122,.05)); box-shadow:0 0 22px rgba(232,200,122,.12); }
+.ai-query-kicker { color:var(--accent); font-size:11px; letter-spacing:.12em; margin-bottom:5px; font-weight:700; }
+.ai-query-text { color:#fff3d0; font-size:16px; line-height:1.55; font-weight:600; }
+.ai-query-meta { color:var(--muted); font-size:11px; margin-top:6px; }
+.card-head { display:flex; gap:12px; align-items:flex-start; }
+  .card-visual { width:120px; flex:none; display:flex; flex-direction:column; gap:6px; }
+  .card-visual .search-actions, .card-visual .add-actions { margin-left:0; width:100%; }
+  .card-visual .search-actions { display:flex; flex-wrap:wrap; gap:4px; }
+  .card-visual .search-actions button { flex:1 1 45%; padding:4px 5px; font-size:11px; }
+  .card-visual .add-actions { display:flex; flex-wrap:nowrap; gap:4px; }
+  .card-visual .add-actions button { flex:1; padding:4px 5px; font-size:11px; }
+  .card-img { width:100%; flex:none; border-radius:6px; border:1px solid var(--line); cursor:zoom-in; }
   .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.85); display:flex; align-items:center; justify-content:center; z-index:2000; cursor:zoom-out; }
   .lightbox img { max-width:88vw; max-height:88vh; border-radius:10px; box-shadow:0 20px 60px rgba(0,0,0,.6); }
   #build-search-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; }
@@ -43,6 +53,11 @@
   .mcp-banner code { color:#ffe0a3; word-break:break-all; }
   .mcp-banner .row { margin-top:6px; }
   .lang-select { background:#111827; color:var(--text); border:1px solid #2c3650; border-radius:8px; padding:5px 8px; font-size:12px; }
+  .esc-hint { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; background:rgba(232,200,122,.14); border:1px solid rgba(232,200,122,.55); color:var(--accent); border-radius:999px; padding:4px 10px; font-size:11.5px; font-weight:600; cursor:pointer; }
+  .esc-hint kbd { font-family:inherit; font-size:10.5px; padding:1px 5px; border-radius:4px; border:1px solid rgba(232,200,122,.6); background:rgba(232,200,122,.18); color:#ffe6a8; }
+  .esc-hint:hover { background:rgba(232,200,122,.24); border-color:var(--accent); box-shadow:0 0 10px rgba(232,200,122,.25); }
+  .offline-badge { display:inline-flex; align-items:center; padding:3px 8px; border-radius:999px; border:1px solid rgba(255,176,92,.6); background:rgba(255,176,92,.14); color:#ffc27a; font-size:11px; font-weight:600; white-space:nowrap; }
+  .offline-banner { margin:0 0 14px; padding:9px 12px; border:1px solid rgba(255,176,92,.5); border-radius:10px; background:rgba(255,176,92,.09); color:#ffd8a8; font-size:12.5px; line-height:1.7; }
   .site-foot { text-align:center; color:var(--muted); font-size:11px; padding:18px 12px 26px; letter-spacing:.3px; }
   .site-foot b { color:var(--accent); }
   button:disabled { opacity:.45; cursor:not-allowed; }
@@ -94,6 +109,8 @@
   .rank-tag.new { background:#2f7d4f; color:#fff; }
   .rank-tag.sup { background:var(--accent); color:#1a1a1a; }
   .build-results { margin-top:12px; max-height:260px; overflow:auto; }
+  .b-results-head { display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0 0 8px; }
+  .b-results-head .reset-search-btn { padding:4px 12px; font-size:12px; }
   .build-hit { display:flex; gap:8px; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--line); font-size:12px; }
   .build-hit img { width:48px; flex:none; border-radius:4px; }
   .build-hit .info { flex:1; min-width:0; }
@@ -145,6 +162,11 @@
   .ban.forbidden { background:#7d3030; color:#fff; }
   .ban.limited1 { background:#a8702a; color:#fff; }
   .ban.limited2 { background:#8a7a2a; color:#fff; }
+  .rarity { font-size:10.5px; font-weight:700; padding:0 5px; border-radius:4px; margin-left:4px; flex:none; border:1px solid; }
+  .rarity.ur { color:#ffe3a3; background:#5c4717; border-color:#c9a34e; }
+  .rarity.sr { color:#e5d4ff; background:#3b2b59; border-color:#8d6fc4; }
+  .rarity.r { color:#cfe7ff; background:#1f3c58; border-color:#5c93bd; }
+  .rarity.n { color:#c4cbd8; background:#2b3340; border-color:#5c6676; }
   .build-count.over { color:#ff8a8a; }
   .b-hand { flex:1 1 260px; max-width:340px; min-width:180px; }
   .b-deck-filter { flex:1 1 180px; max-width:240px; min-width:140px; }
@@ -223,17 +245,20 @@
   #out.grid .welcome { grid-column:1 / -1; }
   #out.grid .card:hover { transform:translateY(-2px); border-color:rgba(232,200,122,.5); box-shadow:0 8px 28px rgba(0,0,0,.45), 0 0 20px rgba(232,200,122,.12); }
   #out.grid .card-head { flex-direction:column; gap:6px; }
+  #out.grid .card-visual { width:100%; }
   #out.grid .card-img { width:100%; aspect-ratio:421 / 614; object-fit:cover; border-radius:9px; border:1px solid rgba(232,200,122,.25); }
   #out.grid .card-body { flex:none; }
   #out.grid .card-body h3 { font-size:13px; line-height:1.35; min-height:2.7em; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
   #out.grid .card pre, #out.grid .effect-label, #out.grid .reason, #out.grid details.stats { display:none; }
-  .build-row { display:flex; align-items:center; gap:5px; padding:4px 0; border-bottom:1px dashed var(--line); font-size:12px; }
-  .build-row img { width:34px; flex:none; border-radius:4px; }
+  .build-row { display:grid; grid-template-columns:34px minmax(0,1fr); column-gap:7px; row-gap:3px; align-items:center; padding:6px 0; border-bottom:1px dashed var(--line); font-size:12px; }
+  .build-row img { grid-row:1 / span 2; width:34px; flex:none; border-radius:4px; align-self:start; }
   .build-row .nm { flex:0 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .build-row .nm[data-search-name] { cursor:pointer; }
   .build-row .nm[data-search-name]:hover { color:var(--accent); text-decoration:underline; }
-  .build-row .nm-wrap { flex:1; min-width:0; display:flex; align-items:center; gap:2px; }
+  .build-row .nm-wrap { flex:1; min-width:0; display:flex; align-items:center; flex-wrap:wrap; gap:2px 4px; }
+  .build-row .row-actions { grid-column:2; display:flex; align-items:center; flex-wrap:wrap; gap:4px; }
   .build-row button { min-width:26px; height:26px; padding:0 7px; font-size:14px; border-radius:6px; }
+  .build-row .build-base { font-size:10.5px; color:var(--muted); font-variant-numeric:tabular-nums; }
   .build-row button[data-bplus] { background:#2f7d4f; border-color:#2f7d4f; color:#fff; font-weight:800; font-size:16px; }
   .build-row button[data-bminus] { background:#7d3030; border-color:#7d3030; color:#fff; font-weight:800; font-size:16px; }
   .build-row button[data-bdel] { color:var(--muted); }
@@ -241,7 +266,35 @@
   .type-dot.monster { background:#e8c87a; }
   .type-dot.spell { background:#5aa9e6; }
   .type-dot.trap { background:#b586e0; }
-  .search-actions { display:inline-flex; flex-wrap:wrap; gap:6px; margin-left:8px; }
+  .ai-live { display:flex; align-items:center; gap:10px; margin-top:10px; padding:11px 13px; border:2px solid #f0b45a; border-radius:12px; background:linear-gradient(135deg, rgba(240,180,90,.22), rgba(240,180,90,.08)); box-shadow:0 0 26px rgba(240,180,90,.2); position:sticky; top:8px; z-index:20; }
+.ai-live.hidden { display:none; }
+.ai-live-dot { width:10px; height:10px; border-radius:50%; background:#ffb347; box-shadow:0 0 0 4px rgba(255,179,71,.2); animation:ai-pulse 1s infinite; flex:0 0 auto; }
+@keyframes ai-pulse { 50% { opacity:.35; transform:scale(.8); } }
+.ai-live-copy { flex:1; min-width:0; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.ai-live-copy b { color:#ffd58a; font-size:14px; }
+.ai-live-copy em { font-style:normal; color:#1a1a1a; background:#f0b45a; border-radius:999px; padding:1px 7px; font-size:10px; font-weight:700; }
+.ai-live-copy span { color:#fff1cf; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%; }
+.ai-abort { flex:0 0 auto; background:#4a2020; color:#ffd0d0; border:1px solid #b85b5b; border-radius:8px; padding:7px 14px; font-weight:700; }
+.ai-abort:hover { background:#6a2828; }
+.results-tools { display:flex; align-items:center; gap:8px; margin-top:12px; flex-wrap:wrap; }
+.results-tools.hidden { display:flex; }
+.results-tools button { padding:5px 12px; font-size:12px; }
+.results-tools button:disabled { opacity:.42; cursor:not-allowed; }
+.reset-search-btn { color:#1a1a1a !important; background:linear-gradient(135deg,#f2d99b,#c9a34e) !important; border-color:#e8c87a !important; font-weight:800 !important; box-shadow:0 0 14px rgba(232,200,122,.28); }
+.reset-search-btn:hover { filter:brightness(1.08); box-shadow:0 0 20px rgba(232,200,122,.42); }
+.saved-modal { position:fixed; inset:0; z-index:2500; background:rgba(3,6,13,.78); display:flex; align-items:center; justify-content:center; padding:18px; }
+.saved-modal.hidden { display:none; }
+.saved-box { width:min(620px,100%); max-height:80vh; overflow:auto; background:#111726; border:1px solid var(--line); border-radius:14px; padding:16px; }
+.saved-box h3 { margin:0 0 10px; color:var(--accent); }
+.saved-row { display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid rgba(42,51,72,.7); font-size:12.5px; }
+.saved-row .nm { flex:1; min-width:0; }
+.saved-row .nm b { display:block; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.saved-row .nm span { color:var(--muted); font-size:10.5px; }
+.saved-kind { flex:none; font-size:10.5px; font-weight:700; padding:2px 6px; border-radius:999px; border:1px solid; }
+.saved-kind.ai { color:#ffe3a3; background:#4d3a16; border-color:#c9a34e; }
+.saved-kind.normal { color:#c4cbd8; background:#2b3340; border-color:#5c6676; }
+.saved-row button { padding:4px 8px; font-size:11px; }
+.search-actions { display:inline-flex; flex-wrap:wrap; gap:6px; margin-left:8px; }
   .search-actions button { padding:4px 10px; font-size:12px; border-radius:6px; }
   .add-actions { display:inline-flex; flex-wrap:nowrap; gap:6px; margin-left:8px; }
   .add-actions button { padding:4px 10px; font-size:12px; border-radius:6px; white-space:nowrap; }
@@ -377,13 +430,39 @@
   .fold-row.best { border-color:rgba(107,211,154,.55); box-shadow:0 0 16px rgba(107,211,154,.15); }
   .build-toolbar .b-target { width:56px; margin:0 2px; }
   .build-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; margin-top:12px; }
+  @media (max-width: 1200px) { .build-grid { grid-template-columns:repeat(2, minmax(0,1fr)); } }
   @media (max-width: 900px) { .build-grid { grid-template-columns:1fr; } }
+  .fav-panel { margin-top:12px; border:1px solid rgba(232,200,122,.22); border-radius:14px; padding:12px; background:rgba(18,23,38,.72); }
+  .fav-panel.hidden { display:none; }
+  .fav-panel-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; }
+  .fav-panel-head h3 { margin:0; color:#f0c36a; font-size:13px; letter-spacing:.5px; }
+  .fav-panel-head h3 span { color:var(--muted); font-variant-numeric:tabular-nums; }
+  .fav-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(126px,1fr)); gap:10px; max-height:360px; overflow:auto; }
+  .fav-card { border:1px solid rgba(232,200,122,.18); border-radius:10px; padding:6px; background:rgba(255,255,255,.03); display:flex; flex-direction:column; gap:4px; cursor:grab; }
+  .fav-card:active { cursor:grabbing; }
+  .fav-card img { width:100%; border-radius:5px; display:block; }
+  .fav-card .fn { font-size:12px; line-height:1.35; color:var(--text); word-break:break-word; }
+  .fav-card .fm { font-size:10.5px; color:var(--muted); }
+  .fav-card .fa { display:flex; gap:4px; margin-top:auto; }
+  .fav-card .fa button { flex:1; padding:2px 4px; font-size:10.5px; }
+  .build-row[draggable="true"], .fav-card[draggable="true"] { cursor:grab; }
+  .build-row[draggable="true"]:active, .fav-card[draggable="true"]:active { cursor:grabbing; }
+  .b-drop-zone.drop-hover { outline:2px dashed rgba(232,200,122,.65); outline-offset:2px; border-radius:8px; background:rgba(232,200,122,.07); }
+  #b-fav-toggle.on { color:#ffd56a; border-color:#c9a34e; background:rgba(201,163,78,.14); }
   .build-col { min-height:260px; display:flex; flex-direction:column; padding:12px 12px 14px; }
   .build-col h3 { display:flex; align-items:center; gap:6px; padding-bottom:8px; border-bottom:1px solid rgba(232,200,122,.16); margin-bottom:8px; }
   .build-col h3::before { content:'◆'; font-size:9px; color:rgba(232,200,122,.55); }
   .build-col:nth-child(1) h3 { color:#e8c87a; }
   .build-col:nth-child(2) h3 { color:#8ea9e0; }
   .build-col:nth-child(3) h3 { color:#b596d6; }
+.build-col.fav-col h3 { color:#f0c36a; }
+.build-col #b-main, .build-col #b-extra, .build-col #b-side, .build-col #b-fav { flex:1; max-height:340px; overflow:auto; }
+.fav-toggle { background:transparent; border:1px solid var(--line); color:var(--muted); padding:1px 7px; font-size:14px; line-height:1.4; }
+.fav-toggle.on { color:#ffd56a; border-color:#c9a34e; background:rgba(201,163,78,.14); }
+.fav-row .nm { cursor:pointer; }
+.fav-row .nm:hover { color:var(--accent); }
+.fav-row .rarity { margin-left:2px; }
+.fav-row button { padding:2px 7px; font-size:11px; }
   .build-col h3 span { font-variant-numeric:tabular-nums; }
   .build-col #b-main, .build-col #b-extra, .build-col #b-side { flex:1; max-height:340px; overflow:auto; }
   .empty-slot { padding:26px 10px; text-align:center; color:var(--muted); font-size:12px; border:1px dashed rgba(232,200,122,.18); border-radius:8px; }
@@ -491,6 +570,9 @@
     <button id="tab-deck">卡组检查</button>
   </nav>
   <span id="status" class="muted" style="margin-left:auto"></span>
+  <span id="offline-badge" class="offline-badge hidden" title="离线模式：仅本地功能可用">离线</span>
+  <label class="opt" id="auto-collapse-wrap" title="进入本页面时自动收起 DSH 左侧栏，可随时取消"><input type="checkbox" id="auto-collapse-opt" checked /> 收起侧栏</label>
+  <button id="esc-exit" class="esc-hint" type="button" title="按 Esc 或点这里退出游戏王 MD，回到上一个页面"><kbd>Esc</kbd> 退回上一页</button>
   <select id="lang-select" class="lang-select" title="界面语言 / Interface language">
     <option value="zh">中文</option>
     <option value="en">English (beta)</option>
@@ -500,6 +582,7 @@
 </header>
 
 <main>
+<div id="offline-banner" class="offline-banner hidden">离线模式：查卡、组卡、卡组检查可用；排行榜、智能补卡、AI 功能需要联网。未缓存的卡图会显示占位图。</div>
 <div id="mcp-banner" class="mcp-banner hidden"></div>
   <section id="view-search">
     <div class="row" id="search-row">
@@ -515,6 +598,11 @@
         <option value="level">按等级</option>
         <option value="atk">按攻击力</option>
       </select>
+    </div>
+    <div id="ai-live" class="ai-live hidden">
+      <span class="ai-live-dot"></span>
+      <div class="ai-live-copy"><b>AI 智能查卡中</b><em>消耗 token</em><span id="ai-live-query"></span></div>
+      <button id="ai-abort" class="ai-abort">中止</button>
     </div>
     <div id="q-history" class="history-row"></div>
     <p class="muted" style="margin:8px 0 0">不勾 AI 时自动分流：像卡名就按卡名查，否则按效果描述搜；配合下面筛选可精确查。勾 AI 则用模型搜，会花 token。</p>
@@ -551,6 +639,12 @@
     <div class="group"><span class="group-title">效果（可多选）</span><div class="chips" id="f-tags"></div></div>
     <div class="row filter-reset-row" style="margin-top:10px"><button id="filter-reset" class="ghost">重置筛选</button></div>
 
+    <div id="results-tools" class="results-tools">
+      <button id="save-results" class="primary" disabled>保存当前结果</button>
+      <button id="open-saved" class="ghost">已保存结果<span id="saved-count"></span></button>
+      <button id="results-reset" class="ghost reset-search-btn">重置查卡</button>
+      <span id="results-tools-note" class="muted"></span>
+    </div>
     <div id="out" style="margin-top:16px"></div>
   </section>
 
@@ -573,6 +667,7 @@
     </div>
     <div class="build-tools-row">
       <input id="b-deck-filter" class="b-deck-filter" placeholder="在卡组里筛选卡名" />
+      <button id="b-fav-toggle" class="ghost" title="展开/收起收藏栏">收藏栏（0）</button>
       <input id="b-hand" class="b-hand" placeholder="指定先手：卡名,卡名（留空=随机）" />
       <label class="opt">实测 <select id="b-sample-count" style="width:64px"><option>3</option><option selected>5</option><option>10</option></select> 手</label>
       <details id="tiers-box" class="tiers-box">
@@ -581,10 +676,14 @@
       </details>
     </div>
     <div id="b-stats" class="build-stats"></div>
-    <div class="build-grid">
-      <div class="build-col"><h3>主卡组 <span id="b-main-count">0</span>/60</h3><div id="b-main"></div></div>
-      <div class="build-col"><h3>额外 <span id="b-extra-count">0</span>/15</h3><div id="b-extra"></div></div>
-      <div class="build-col"><h3>副卡组 <span id="b-side-count">0</span>/15</h3><div id="b-side"></div></div>
+    <div class="build-grid" id="build-grid">
+      <div class="build-col"><h3>主卡组 <span id="b-main-count">0</span>/60</h3><div id="b-main" class="b-drop-zone" data-drop-section="main"></div></div>
+      <div class="build-col"><h3>额外 <span id="b-extra-count">0</span>/15</h3><div id="b-extra" class="b-drop-zone" data-drop-section="extra"></div></div>
+      <div class="build-col"><h3>副卡组 <span id="b-side-count">0</span>/15</h3><div id="b-side" class="b-drop-zone" data-drop-section="side"></div></div>
+    </div>
+    <div id="b-fav-panel" class="fav-panel hidden">
+      <div class="fav-panel-head"><h3>收藏卡 <span id="b-fav-count">0</span></h3><button id="b-fav-close" class="ghost">收起</button></div>
+      <div id="b-fav" class="fav-grid"></div>
     </div>
     <div class="row" style="margin-top:12px; flex-wrap:wrap">
       <button id="b-check" class="ghost">检查</button>
@@ -657,6 +756,23 @@
 
 <div id="lightbox" class="lightbox hidden"><button id="lb-prev" class="lb-nav lb-prev" title="上一张">‹</button><img id="lightbox-img" alt="" /><button id="lb-next" class="lb-nav lb-next" title="下一张">›</button><div id="lb-cap"></div></div>
 
+<div id="save-name-modal" class="saved-modal hidden">
+  <div class="saved-box">
+    <h3>保存查卡结果</h3>
+    <p id="save-name-info" class="muted"></p>
+    <input id="save-name-input" placeholder="结果名称" style="width:100%; margin:6px 0 2px" />
+    <div class="row" style="margin-top:10px"><button id="save-name-ok" class="primary">保存</button><button id="save-name-cancel" class="ghost">取消</button></div>
+  </div>
+</div>
+
+<div id="saved-modal" class="saved-modal hidden">
+  <div class="saved-box">
+    <h3>已保存的查卡结果</h3>
+    <div id="saved-list" class="saved-list"></div>
+    <div class="row" style="margin-top:10px"><button id="saved-close" class="ghost">关闭</button></div>
+  </div>
+</div>
+
 <script>
 const $ = (id) => document.getElementById(id);
 window.addEventListener('error', (event) => {
@@ -670,6 +786,15 @@ const I18N = {
   'Master Duel · DSH 面板': 'Master Duel · DSH Panel',
   '查卡': 'Cards', '构建': 'Builder', '排行': 'Rankings', '卡组检查': 'Deck Check',
   '刷新': 'Reload', '快捷键帮助': 'Keyboard shortcuts', '重新加载面板（相当于刷新）': 'Reload panel',
+  '收起侧栏': 'Collapse sidebar',
+  '退回上一页': 'Exit page',
+  '按 Esc 或点这里退出游戏王 MD，回到上一个页面': 'Press Esc or click here to leave Master Duel and return to the previous page',
+  '离线': 'Offline',
+  '离线模式：仅本地功能可用': 'Offline mode: local features only',
+  '离线模式：查卡、组卡、卡组检查可用；排行榜、智能补卡、AI 功能需要联网。未缓存的卡图会显示占位图。': 'Offline mode: card search, deck building and deck check work; rankings, smart fill and AI features need the internet. Uncached card images show a placeholder.',
+  '进入本页面时自动收起 DSH 左侧栏，可随时取消': 'Auto-collapse the DSH sidebar when this page opens (toggle off to disable)',
+  '已开启进入页面自动收起侧栏': 'Sidebar will auto-collapse when this page opens',
+  '已关闭进入页面自动收起侧栏': 'Sidebar auto-collapse is off',
   '清空搜索框': 'Clear search', 'AI 智能（耗 token）': 'AI (tokens)', '异画': 'Alt art',
   '有 MD 异画时显示异画': 'Show alternate art when available',
   '网格视图': 'Grid view', '排序结果': 'Sort results', '默认排序': 'Default',
@@ -832,11 +957,14 @@ function altButton(card) {
 }
 
 function cardImage(card) {
+  if (!card) return '';
   const alt = isAltOn(card);
   const source = $('img-source')?.value || 'ygo';
-  if (source === 'cn') return (alt && card.altImage) || card.cnImage || card.image;
-  if (source === 'md') return (alt && card.altImage) || card.mdImage || card.image;
-  return (alt && card.altImage) || card.image;
+  const ygo = card.image || (card.id ? `https://images.ygoprodeck.com/images/cards/${card.id}.jpg` : '');
+  const cn = card.cnImage || (card.id ? `https://cdn.233.momobako.com/ygopro/pics/${card.id}.jpg` : '');
+  if (source === 'cn') return (alt && card.altImage) || cn || ygo;
+  if (source === 'md') return (alt && card.altImage) || card.mdImage || ygo;
+  return (alt && card.altImage) || ygo;
 }
 
 function entryImage(entry) {
@@ -1054,6 +1182,7 @@ function fallbackBadgeFor(card) {
 }
 
 async function loadImageFallbacks() {
+  if (aiSearching) return;
   try {
     const data = await api('api/image-fallbacks');
     imageFallbackMap = new Map((data.items || []).map((item) => [Number(item.id), item]));
@@ -1062,7 +1191,289 @@ async function loadImageFallbacks() {
 }
 let lastRenderedCards = null;
 let lastRawCards = null;
+let savedSearches = [];
+let favorites = [];
+let lastSearchQuery = '';
+let lastAIPlan = null;
+let lastSearchMode = 'normal';
+let aiAbortController = null;
+let aiSearching = false;
 const banFilter = new Set();
+
+function favoriteKey(card) {
+  return String(card?.id || card?.name || '');
+}
+function isFavorite(card) {
+  if (!card) return false;
+  return favorites.some((item) => (card.id && String(item.id) === String(card.id)) || item.name === card.name);
+}
+function favoritePayload(card) {
+  return {
+    name: card.name, id: card.id ?? null, type: card.type || '', body: card.body || '', effect: card.effect || '',
+    rarity: card.rarity || '', level: card.level ?? null, atk: card.atk ?? null, def: card.def ?? null,
+    image: card.image || (card.id ? `https://images.ygoprodeck.com/images/cards/${card.id}.jpg` : ''),
+    cnImage: card.cnImage || (card.id ? `https://cdn.233.momobako.com/ygopro/pics/${card.id}.jpg` : ''),
+    mdImage: card.mdImage || '', altImage: card.altImage || '',
+  };
+}
+function favoriteButton(card) {
+  const on = isFavorite(card);
+  return `<button class="fav-toggle${on ? ' on' : ''}" data-fav-name="${esc(card.name)}" data-fav-id="${esc(card.id ?? '')}" title="${on ? '取消收藏' : '收藏'}">${on ? '★' : '☆'}</button>`;
+}
+function resolveFavoriteCard(name, id) {
+  const wantedName = String(name || '');
+  const wantedId = String(id || '');
+  const lists = [favorites, lastRawCards || [], lastRenderedCards || [], build.main, build.extra, build.side];
+  for (const list of lists) {
+    const found = list.find((card) => (wantedId && String(card.id) === wantedId) || card.name === wantedName);
+    if (found) return found;
+  }
+  for (const map of [searchCards, buildCache]) {
+    const found = map.get(wantedName);
+    if (found) return found;
+  }
+  return { name: wantedName, id: wantedId || null };
+}
+function refreshFavoriteButtons() {
+  for (const button of document.querySelectorAll('[data-fav-name]')) {
+    const on = isFavorite({ name: button.dataset.favName, id: button.dataset.favId || null });
+    button.classList.toggle('on', on);
+    button.textContent = on ? '★' : '☆';
+    button.title = on ? '取消收藏' : '收藏';
+  }
+}
+async function toggleFavorite(name, id) {
+  const card = resolveFavoriteCard(name, id);
+  const index = favorites.findIndex((item) => (id && String(item.id) === String(id)) || item.name === card.name);
+  if (index >= 0) {
+    favorites.splice(index, 1);
+    setStatus(`已取消收藏：${card.name}`);
+  } else {
+    favorites.unshift(favoritePayload(card));
+    favorites = favorites.slice(0, 300);
+    setStatus(`已收藏：${card.name}`);
+  }
+  refreshFavoriteButtons();
+  renderFavorites();
+  try { await apiPost('api/settings', { favorites }); } catch { /* local view still updates */ }
+}
+function syncFavToggle() {
+  const button = $('b-fav-toggle');
+  const panel = $('b-fav-panel');
+  if (!button || !panel) return;
+  const open = !panel.classList.contains('hidden');
+  button.classList.toggle('on', open);
+  button.textContent = `${open ? '收起' : '展开'}收藏（${favorites.length}）`;
+}
+function toggleFavoritesPanel(force) {
+  const panel = $('b-fav-panel');
+  if (!panel) return;
+  const open = typeof force === 'boolean' ? force : panel.classList.contains('hidden');
+  panel.classList.toggle('hidden', !open);
+  syncFavToggle();
+  try { localStorage.setItem('md-fav-open', open ? '1' : '0'); } catch { /* ignore */ }
+}
+function moveBuildCard(from, id, name, to) {
+  if (!from || !to || from === to || !build[from] || !build[to]) return;
+  const source = build[from].find((entry) => (id && String(entry.id) === String(id)) || entry.name === name);
+  if (!source) return;
+  if (to === 'extra' && !isExtraCard(source)) { setStatus('额外卡组只能放融合/同调/超量/连接怪兽', true); return; }
+  if (to === 'main' && isExtraCard(source)) { setStatus('额外卡组怪兽不能放进主卡组', true); return; }
+  const hit = build[to].find((entry) => (source.id && String(entry.id) === String(source.id)) || entry.name === source.name);
+  if (hit && hit.count >= 3) { setStatus('目标栏同名卡已经有 3 张', true); return; }
+  snapshotBuild();
+  if (hit) hit.count += 1;
+  else build[to].push({ ...source, count: 1 });
+  if (source.count > 1) source.count -= 1;
+  else build[from] = build[from].filter((entry) => entry !== source);
+  saveBuildState();
+  renderBuild();
+  setStatus(`已移动 1 张：${source.name} → ${to === 'main' ? '主卡组' : to === 'extra' ? '额外' : '副卡组'}`);
+}
+
+function addFavoriteToBuild(name, section) {
+  const card = resolveFavoriteCard(name, '');
+  if (!card?.name) return;
+  const to = section === 'extra' ? 'extra' : section === 'side' ? 'side' : 'main';
+  if (to === 'extra' && !isExtraCard(card)) { setStatus('额外卡组只能放融合/同调/超量/连接怪兽', true); return; }
+  if (to === 'main' && isExtraCard(card)) { setStatus('额外卡组怪兽不能放进主卡组', true); return; }
+  const list = build[to];
+  const hit = list.find((entry) => (card.id && String(entry.id) === String(card.id)) || entry.name === card.name);
+  if (hit && hit.count >= 3) { setStatus('同名卡最多 3 张', true); return; }
+  snapshotBuild();
+  if (hit) hit.count += 1;
+  else list.push({ ...favoritePayload(card), count: 1 });
+  saveBuildState();
+  renderBuild();
+  setStatus(`已从收藏加入 1 张：${card.name}`);
+}
+
+function renderFavorites() {
+  const host = $('b-fav');
+  if (!host) return;
+  const count = $('b-fav-count');
+  if (count) count.textContent = favorites.length;
+  if (!favorites.length) {
+    host.innerHTML = '<div class="empty-slot">点卡片上的 ☆ 收藏</div>';
+    syncFavToggle();
+    return;
+  }
+  host.innerHTML = favorites.map((card) => {
+    const rawImage = cardImage(card);
+    const fallbackSrc = cardFallback(card);
+    const fallbackAttr = fallbackSrc && fallbackSrc !== rawImage ? ` data-fallback="${esc(proxied(fallbackSrc))}"` : '';
+    const img = rawImage ? `<img data-remote="${esc(rawImage)}" title="点击放大"${fallbackAttr} src="${esc(proxied(rawImage))}">` : '';
+    const extra = isExtraCard(card);
+    const meta = [card.rarity, card.type].filter(Boolean).join(' · ');
+    return `<div class="fav-card" draggable="true" data-drag-favorite="${esc(card.name)}" title="可拖到主/额外/副卡组"><div class="fn" data-search-name="${esc(card.name)}">${esc(card.name)}</div>${img}<div class="fm">${esc(meta)}</div><div class="fa"><button data-fav-add-name="${esc(card.name)}" data-fav-add-section="${extra ? 'extra' : 'main'}">+${extra ? '额外' : '主'}</button><button data-fav-del="${esc(card.name)}" title="取消收藏">★</button></div></div>`;
+  }).join('');
+  syncFavToggle();
+}
+
+function resetSearchView() {
+  if (aiAbortController) aiAbortController.abort();
+  aiAbortController = null;
+  aiSearching = false;
+  hideAILive();
+  hideSuggest();
+  relatedBackStack = [];
+  relatedOpen = false;
+  banFilter.clear();
+  for (const chip of document.querySelectorAll('#f-ban .chip.on')) chip.classList.remove('on');
+  for (const id of ['f-attr', 'f-race', 'f-level', 'f-atk', 'f-def', 'f-rarity']) {
+    const field = $(id);
+    if (field) field.value = '';
+  }
+  for (const chip of document.querySelectorAll('#f-presets .chip.on, #f-kinds .chip.on, #f-tags .chip.on')) chip.classList.remove('on');
+  $('q').value = '';
+  lastRawCards = null;
+  lastRenderedCards = null;
+  lastSearchQuery = '';
+  lastAIPlan = null;
+  lastSearchMode = 'normal';
+  $('out').innerHTML = '';
+  updateResultsTools(false);
+  renderWelcome();
+  setStatus('已重置查卡');
+}
+
+function resetBuildSearch() {
+  const input = $('b-q');
+  if (input) input.value = '';
+  const host = $('b-results');
+  if (host) host.innerHTML = '';
+  lastBuildHits = null;
+  lastHitsTitle = '';
+  setStatus('已重置构建查卡');
+}
+
+function updateResultsTools(visible) {
+  const tools = $('results-tools');
+  if (!tools) return;
+  tools.classList.remove('hidden');
+  const save = $('save-results');
+  if (save) save.disabled = !visible;
+  const note = $('results-tools-note');
+  if (note) note.textContent = visible ? `当前 ${lastRenderedCards?.length || 0} 张 · ${lastSearchQuery ? '「' + lastSearchQuery + '」' : ''}` : '先查卡，再保存当前结果';
+}
+function showAILive(query) {
+  $('ai-live-query').textContent = query || '';
+  $('ai-live').classList.remove('hidden');
+}
+function hideAILive() {
+  $('ai-live').classList.add('hidden');
+}
+function abortAISearch() {
+  if (aiAbortController) aiAbortController.abort();
+  hideAILive();
+  setStatus('已中止 AI 搜索');
+}
+function renderSavedList() {
+  const host = $('saved-list');
+  if (!host) return;
+  host.innerHTML = savedSearches.length
+    ? savedSearches.map((item, index) => {
+        const mode = item.mode || (item.plan ? 'ai' : 'normal');
+        const kind = mode === 'ai' ? '智能查卡' : '普通查卡';
+        return `<div class="saved-row"><span class="saved-kind ${mode}">${kind}</span><div class="nm"><b>${esc(item.name)}</b><span>${esc(item.query || '')} · ${new Date(item.at || 0).toLocaleString('zh-CN')} · ${item.cards?.length || 0} 张</span></div><button class="ghost" data-load-saved="${index}">查看</button><button class="ghost" data-del-saved="${index}">删除</button></div>`;
+      }).join('')
+    : '<p class="muted">还没有保存的查卡结果。</p>';
+  const count = $('saved-count');
+  if (count) count.textContent = savedSearches.length ? `（${savedSearches.length}）` : '';
+}
+async function saveCurrentResults() {
+  if (!lastRenderedCards?.length) { setStatus('当前没有可保存的结果', true); return; }
+  const name = await askSavedName((lastSearchQuery || '查卡结果').slice(0, 40));
+  if (!name) return;
+  const cards = lastRenderedCards.map((card) => ({
+    name: card.name, id: card.id, type: card.type, body: card.body, effect: card.effect,
+    level: card.level, atk: card.atk, def: card.def, rarity: card.rarity || '', reason: card.reason,
+    image: card.image || (card.id ? `https://images.ygoprodeck.com/images/cards/${card.id}.jpg` : ''),
+    cnImage: card.cnImage || (card.id ? `https://cdn.233.momobako.com/ygopro/pics/${card.id}.jpg` : ''),
+    mdImage: card.mdImage || '', altImage: card.altImage || '',
+  }));
+  const mode = lastSearchMode === 'ai' || lastAIPlan ? 'ai' : 'normal';
+  savedSearches.unshift({ name: String(name).slice(0, 60), query: lastSearchQuery, mode, plan: lastAIPlan || null, at: Date.now(), cards });
+  savedSearches = savedSearches.slice(0, 20);
+  try {
+    await apiPost('api/settings', { savedSearches });
+    setStatus(`已保存 ${cards.length} 张查卡结果`);
+  } catch (error) {
+    setStatus('保存失败：' + error.message, true);
+  }
+  renderSavedList();
+}
+function askSavedName(defaultValue) {
+  return new Promise((resolve) => {
+    $('save-name-info').textContent = lastSearchQuery ? `查询：${lastSearchQuery}` : '';
+    $('save-name-input').value = defaultValue || '';
+    $('save-name-modal').classList.remove('hidden');
+    setTimeout(() => { $('save-name-input').focus(); $('save-name-input').select(); }, 30);
+    const done = (value) => {
+      $('save-name-modal').classList.add('hidden');
+      $('save-name-ok').onclick = null;
+      $('save-name-cancel').onclick = null;
+      resolve(value);
+    };
+    $('save-name-ok').onclick = () => done($('save-name-input').value.trim());
+    $('save-name-cancel').onclick = () => done(null);
+    $('save-name-input').onkeydown = (event) => {
+      if (event.key === 'Enter') { event.preventDefault(); done($('save-name-input').value.trim()); }
+      if (event.key === 'Escape') { event.preventDefault(); done(null); }
+    };
+  });
+}
+async function loadSavedResult(index) {
+  const item = savedSearches[index];
+  if (!item) return;
+  let cards = Array.isArray(item.cards) ? item.cards.slice() : [];
+  const ids = [...new Set(cards.filter((card) => !card.rarity).map((card) => Number(card.id)).filter(Boolean))];
+  if (ids.length) {
+    try {
+      const data = await apiPost('api/cards-by-ids', { ids });
+      const byId = new Map((data.cards || []).map((card) => [String(card.id), card]));
+      cards = cards.map((card) => {
+        const fresh = byId.get(String(card.id));
+        return fresh ? { ...fresh, ...card, rarity: card.rarity || fresh.rarity, image: card.image || fresh.image, cnImage: card.cnImage || fresh.cnImage } : card;
+      });
+      item.cards = cards;
+      apiPost('api/settings', { savedSearches }).catch(() => {});
+    } catch { /* keep snapshot */ }
+  }
+  $('q').value = item.query || '';
+  lastSearchQuery = item.query || '';
+  lastSearchMode = item.mode || (item.plan ? 'ai' : 'normal');
+  lastAIPlan = item.plan || null;
+  renderCards(cards, '没有结果', null, item.plan ? { query: item.query || '', plan: item.plan } : null);
+  switchTab('search');
+  $('saved-modal').classList.add('hidden');
+  setStatus(`已载入保存结果：${item.name}`);
+}
+async function deleteSavedResult(index) {
+  savedSearches.splice(index, 1);
+  renderSavedList();
+  try { await apiPost('api/settings', { savedSearches }); } catch { /* ignore */ }
+}
 
 function sortCards(list, mode) {
   const copy = [...list];
@@ -1072,19 +1483,23 @@ function sortCards(list, mode) {
   return copy;
 }
 
-function renderCards(cards, emptyText, stats) {
+function renderCards(cards, emptyText, stats, aiQuery) {
   cards = sortCards(cards || [], $('sort-select') ? $('sort-select').value : 'default');
   lastRawCards = cards.slice();
   if (banFilter.size) cards = cards.filter((card) => banFilter.has(banlistMap.get(Number(card.id))));
   const target = $('out');
-  target.innerHTML = '';
+  target.innerHTML = aiQuery
+    ? `<div class="ai-query-banner"><div class="ai-query-kicker">AI 智能查卡 · 查询条件</div><div class="ai-query-text">${esc(aiQuery.query)}</div><div class="ai-query-meta">${aiQuery.plan ? `卡名候选 ${aiQuery.plan.names?.length || 0} / 卡文片段 ${aiQuery.plan.phrases?.length || 0}${aiQuery.plan.reranked ? ' / 已按相关度复核' : ''} · ` : ''}下面只保留与这条条件匹配的卡</div></div>`
+    : '';
   if (!cards?.length) {
-    target.innerHTML = `<p class="muted">${esc(emptyText)}</p>`;
+    target.insertAdjacentHTML('beforeend', `<p class="muted">${esc(emptyText)}</p>`);
+    updateResultsTools(false);
     setStatus(emptyText || '没有结果', true);
     return;
   }
   setStatus(`找到 ${cards.length} 张`);
   lastRenderedCards = cards.slice();
+  updateResultsTools(true);
   if (stats?.length) {
     const block = document.createElement('details');
     block.className = 'stats';
@@ -1108,9 +1523,11 @@ function renderCards(cards, emptyText, stats) {
         : '';
     const canExtra = isExtraCard({ type: card.type || '', body: card.body || '' });
     const owned = ownedCount(card);
-    el.innerHTML = `<div class="card-head">${img}<div class="card-body"><h3>「${esc(card.name)}」${banlistMap.get(Number(card.id)) ? `<span class="ban ${banlistMap.get(Number(card.id))}">${banlistMap.get(Number(card.id)) === 'forbidden' ? '禁止' : banlistMap.get(Number(card.id)) === 'limited1' ? '限1' : '限2'}</span>` : ''}${owned ? `<span class="owned">已在卡组 ×${owned}</span>` : ''}${fallbackBadgeFor(card)}</h3>${card.reason ? `<div class="reason">${esc(card.reason)}</div>` : ''}<pre>${esc(card.body)}</pre>${effect}</div></div>
-      <div class="search-actions"><button class="ghost" data-related="${esc(card.name)}">相关卡片</button>${altButton(card)}</div>
+    const rarity = card.rarity ? `<span class="rarity ${String(card.rarity).toLowerCase()}">${esc(card.rarity)}</span>` : '';
+    el.innerHTML = `<div class="card-head"><div class="card-visual">${img}
+      <div class="search-actions"><button class="ghost" data-related="${esc(card.name)}">相关</button>${favoriteButton(card)}${altButton(card)}</div>
       <div class="add-actions">${canExtra ? `<button data-search-add="${esc(card.name)}" data-section="extra">+ 额外</button>` : `<button data-search-add="${esc(card.name)}" data-section="main">+ 主</button>`}<button data-search-add="${esc(card.name)}" data-section="side">+ 副</button></div>
+    </div><div class="card-body"><h3>「${esc(card.name)}」${rarity}${banlistMap.get(Number(card.id)) ? `<span class="ban ${banlistMap.get(Number(card.id))}">${banlistMap.get(Number(card.id)) === 'forbidden' ? '禁止' : banlistMap.get(Number(card.id)) === 'limited1' ? '限1' : '限2'}</span>` : ''}${owned ? `<span class="owned">已在卡组 ×${owned}</span>` : ''}${fallbackBadgeFor(card)}</h3>${card.reason ? `<div class="reason">${esc(card.reason)}</div>` : ''}<pre>${esc(card.body)}</pre>${effect}</div></div>
       <div class="related hidden"></div>`;
     target.appendChild(el);
   }
@@ -1412,6 +1829,9 @@ async function search(limit = 60) {
   relatedBackStack = [];
   relatedOpen = false;
   const q = $('q').value.trim();
+  lastSearchQuery = q;
+  lastSearchMode = 'normal';
+  lastAIPlan = null;
   pushHistory('md-history-search', q);
   renderHistoryChips();
   const filters = filterParams();
@@ -1463,21 +1883,42 @@ async function search(limit = 60) {
 async function aiSearch() {
   const q = $('q').value.trim();
   if (!q) { setStatus('先输入效果描述', true); return; }
+  if (aiAbortController) aiAbortController.abort();
+  const controller = new AbortController();
+  aiAbortController = controller;
+  aiSearching = true;
+  lastSearchQuery = q;
+  lastSearchMode = 'ai';
+  lastAIPlan = null;
+  lastRawCards = null;
+  lastRenderedCards = null;
+  showAILive(q);
   setStatus('AI 搜索中（消耗 token）…');
+  updateResultsTools(false);
   $('out').innerHTML = '';
   try {
     const res = await fetch('api/ai-search', {
       method: 'POST',
       headers: withToken({ 'content-type': 'application/json' }),
       body: JSON.stringify({ q }),
+      signal: controller.signal,
     });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || 'AI 搜索失败');
-    renderCards(data.cards, '没有匹配的卡', data.stats);
+    aiSearching = false;
+    lastAIPlan = data.plan || null;
+    renderCards(data.cards, '没有匹配的卡', data.stats, { query: q, plan: data.plan });
     const plan = data.plan ? `（卡名 ${data.plan.names.length} / 片段 ${data.plan.phrases.length}${data.plan.reranked ? ' / 已复核' : ''}）` : '';
     setStatus('AI 完成' + plan);
   } catch (error) {
-    setStatus(error.message, true);
+    if (error.name === 'AbortError') setStatus('已中止 AI 搜索');
+    else setStatus(error.message, true);
+  } finally {
+    if (aiAbortController === controller) {
+      aiAbortController = null;
+      aiSearching = false;
+      hideAILive();
+    }
   }
 }
 
@@ -1509,7 +1950,7 @@ function renderDeck(data) {
           const badge = status
             ? `<span class="ban ${status}">${status === 'forbidden' ? '禁止' : status === 'limited1' ? '限1' : '限2'}</span>`
             : '';
-          return `<div class="dc-row" data-dc-name="${esc(String(card.name).toLowerCase())}"><span class="nm" data-search-name="${esc(card.name)}" title="点击查看卡片">${esc(card.name)}</span>${badge}<span class="cnt">×${esc(card.count)}</span></div>`;
+          return `<div class="dc-row" data-dc-name="${esc(String(card.name).toLowerCase())}"><span class="nm" data-search-name="${esc(card.name)}" title="点击查看卡片">${esc(card.name)}</span>${badge}${favoriteButton(card)}<span class="cnt">×${esc(card.count)}</span></div>`;
         })
         .join('');
     }
@@ -1840,8 +2281,9 @@ function buildRow(entry, section) {
     : '';
   const typeText = String(entry.type || '');
   const kind = typeText.includes('怪兽') ? 'monster' : typeText.includes('魔法') ? 'spell' : typeText.includes('陷阱') ? 'trap' : 'other';
-  return `<div class="build-row">${img}<span class="type-dot ${kind}" title="${esc(typeText)}"></span><span class="nm-wrap"><span class="nm" data-search-name="${esc(entry.name)}" title="点击查看卡片">${esc(entry.name)}</span>${entry.level ? `<span class="lv" title="等级 / 攻守">★${esc(entry.level)}</span>` : ''}${badge}<span class="build-count${over ? ' over' : ''}">×${entry.count}</span></span>
-    <button data-bminus="${section}:${esc(entry.id)}">−</button><button data-bplus="${section}:${esc(entry.id)}">+</button><button data-bdel="${section}:${esc(entry.id)}">×</button><button data-bseries="${esc(entry.name)}">系列</button></div>`;
+  const base = entry.atk != null || entry.def != null ? `<span class="build-base">${entry.atk ?? '?'}/${entry.def ?? '?'}</span>` : '';
+  return `<div class="build-row" draggable="true" data-drag-section="${section}" data-drag-id="${esc(entry.id)}" data-drag-name="${esc(entry.name)}" title="可拖到其他卡组栏">${img}<span class="nm-wrap"><span class="type-dot ${kind}" title="${esc(typeText)}"></span><span class="nm" data-search-name="${esc(entry.name)}" title="点击查看卡片">${esc(entry.name)}</span>${entry.level ? `<span class="lv" title="等级 / 攻守">★${esc(entry.level)}</span>` : ''}${badge}${base}<span class="build-count${over ? ' over' : ''}">×${entry.count}</span></span>
+    <span class="row-actions">${favoriteButton(entry)}<button data-bminus="${section}:${esc(entry.id)}">−</button><button data-bplus="${section}:${esc(entry.id)}">+</button><button data-bdel="${section}:${esc(entry.id)}">×</button><button data-bseries="${esc(entry.name)}">系列</button></span></div>`;
 }
 
 function renderBuild() {
@@ -1862,6 +2304,7 @@ function renderBuild() {
   $('b-extra-count').classList.toggle('err', buildCount('extra') > 15);
   $('b-side-count').classList.toggle('err', buildCount('side') > 15);
   renderBuildStats();
+  renderFavorites();
 }
 
 function renderBuildStats() {
@@ -1905,15 +2348,16 @@ function isExtraCard(card) {
 }
 
 function renderBuildHits(cards, title) {
+  const header = `<div class="b-results-head"><span class="muted">${esc(title || '搜索结果')}</span><button class="ghost reset-search-btn" data-b-reset>重置查卡</button></div>`;
   if (!cards?.length) {
-    $('b-results').innerHTML = `<p class="muted">${esc(title || '没有找到')}</p>`;
+    $('b-results').innerHTML = header + `<p class="muted">${esc(title || '没有找到')}</p>`;
     return;
   }
   lastBuildHits = cards;
   lastHitsTitle = title || '';
   for (const card of cards) buildCache.set(card.name, card);
   $('b-results').innerHTML =
-    (title ? `<p class="muted">${esc(title)}</p>` : '') +
+    header +
     cards
       .slice(0, 60)
       .map((card) => {
@@ -1935,6 +2379,7 @@ function renderBuildHits(cards, title) {
           ${meta ? `<div class="build-meta">${esc(meta)}</div>` : ''}
           ${effect ? `<div class="bh-detail" title="${esc(effect)}">${esc(effect)}</div>` : ''}
         </span><span class="bh-actions">
+          ${favoriteButton(card)}
           ${isExtraCard(card) ? `<button data-badd-extra="${esc(card.name)}">+ 额外</button>` : `<button data-badd-main="${esc(card.name)}">+ 主</button>`}
           <button data-badd-side="${esc(card.name)}">+ 副</button>
           ${altButton(card)}
@@ -2050,6 +2495,7 @@ async function importBuild() {
   setStatus('导入中…');
   try {
     const data = await apiPost('api/deck-resolve', { deck });
+    clearResults();
     build = { main: [], extra: [], side: [] };
     for (const card of data.cards || []) {
       const list = build[card.section] || build.main;
@@ -2086,10 +2532,20 @@ async function checkBuild() {
 function clearBuild() {
   snapshotBuild();
   build = { main: [], extra: [], side: [] };
+  clearResults();
   saveBuildState();
   renderBuild();
   $('b-out').innerHTML = '';
 }
+
+function updateOfflineHint() {
+  const offline = navigator.onLine === false;
+  $('offline-badge')?.classList.toggle('hidden', !offline);
+  $('offline-banner')?.classList.toggle('hidden', !offline);
+}
+
+window.addEventListener('offline', updateOfflineHint);
+window.addEventListener('online', updateOfflineHint);
 
 async function checkMcpHealth() {
   const banner = $('mcp-banner');
@@ -2234,6 +2690,43 @@ async function cacheVisibleImages() {
   setStatus(failed ? `已缓存 ${done}/${urls.length} 张，${failed} 张失败（缺图或超时，可再点一次重试）` : `已缓存 ${done}/${urls.length} 张卡图`);
 }
 
+const SIDEBAR_AUTO_COLLAPSE_TYPE = 'dsh-masterduel:auto-collapse';
+const SIDEBAR_EXIT_TYPE = 'dsh-masterduel:exit';
+
+function postSidebarAutoCollapse() {
+  try {
+    if (window.parent === window) return;
+    window.parent.postMessage(
+      { type: SIDEBAR_AUTO_COLLAPSE_TYPE, enabled: Boolean($('auto-collapse-opt')?.checked) },
+      window.location.origin,
+    );
+  } catch { /* ignore */ }
+}
+
+function postSidebarExit() {
+  try {
+    if (window.parent === window) return;
+    window.parent.postMessage({ type: SIDEBAR_EXIT_TYPE }, window.location.origin);
+  } catch { /* ignore */ }
+}
+
+// Re-entry without a full iframe reload (e.g. the host hides instead of unmounts).
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) postSidebarAutoCollapse();
+});
+window.addEventListener('pageshow', postSidebarAutoCollapse);
+
+// ESC: close an open dropdown/lightbox first; otherwise give the sidebar back.
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape' || event.repeat) return;
+  if (suggestBox || ($('lightbox') && !$('lightbox').classList.contains('hidden'))) return;
+  const tag = String(event.target?.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || event.target?.isContentEditable) return;
+  if (window.parent === window) return;
+  postSidebarExit();
+  setStatus('已退出游戏王 MD 页面');
+}, true);
+
 async function loadSettings() {
   try {
     const settings = await api('api/settings');
@@ -2250,6 +2743,10 @@ async function loadSettings() {
       $('img-auto-retry').checked = Boolean(settings.autoRetryImages);
       changed = true;
     }
+    if (typeof settings.autoCollapseSidebar === 'boolean' && $('auto-collapse-opt').checked !== settings.autoCollapseSidebar) {
+      $('auto-collapse-opt').checked = settings.autoCollapseSidebar;
+    }
+    postSidebarAutoCollapse();
     const savedLimit = Number(settings.imageCacheLimitMB) || 0;
     if (savedLimit !== Number($('img-cache-limit').value || 0)) {
       $('img-cache-limit').value = savedLimit || '';
@@ -2263,6 +2760,11 @@ async function loadSettings() {
     };
     mergeHistory('md-history-search', settings.searchHistory);
     mergeHistory('md-history-build', settings.buildHistory);
+    savedSearches = Array.isArray(settings.savedSearches) ? settings.savedSearches.slice(0, 20) : [];
+    favorites = Array.isArray(settings.favorites) ? settings.favorites.slice(0, 300) : [];
+    renderSavedList();
+    renderFavorites();
+    refreshFavoriteButtons();
     renderHistoryChips();
     if (changed) {
       renderBuild();
@@ -3132,6 +3634,7 @@ async function toBuildFromDeck() {
       setStatus('没有解析出卡片', true);
       return;
     }
+    clearResults();
     build = { main: [], extra: [], side: [] };
     for (const card of cards) {
       const section = card.section === 'extra' ? 'extra' : card.section === 'side' ? 'side' : 'main';
@@ -3192,6 +3695,9 @@ function setupBuild() {
   renderBuild();
   enrichBuildEntries();
   $('b-find').addEventListener('click', buildSearch);
+document.addEventListener('click', (event) => {
+  if (event.target.closest('[data-b-reset]')) resetBuildSearch();
+});
   $('b-save').addEventListener('click', saveDeckSnapshot);
   $('b-saves-export').addEventListener('click', exportSaves);
   $('b-saves-import').addEventListener('click', () => $('b-saves-file').click());
@@ -3503,6 +4009,7 @@ async function showBreakdown(id) {
 function applyBreakdown() {
   snapshotBuild();
   if (!lastBreakdown || !lastBreakdown.length) return;
+  clearResults();
   const mainTarget = Math.min(60, Math.max(40, Number($('b-target')?.value) || 40));
   build = { main: [], extra: [], side: [] };
   let mainCount = 0;
@@ -3528,6 +4035,12 @@ function applyBreakdown() {
   saveBuildState();
   renderBuild();
   switchTab('build');
+  // Leaving the breakdown via "build this deck" should reopen the ranking list,
+  // not the old breakdown detail, when the user comes back.
+  lastBreakdown = null;
+  lastBreakdownId = '';
+  rankLoaded = false;
+  $('rank-out').innerHTML = '';
   setStatus(`已生成卡组骨架：主 ${mainCount} / 额外 ${extraCount}（目标 ${mainTarget}）`);
 }
 
@@ -3660,7 +4173,7 @@ document.addEventListener('click', (event) => {
 $('reload-panel').addEventListener('click', () => location.reload());
 $('lang-select').addEventListener('change', () => chooseLang($('lang-select').value));
 $('help-btn').addEventListener('click', () => {
-  window.alert('快捷键：\n/  聚焦搜索\nEnter  搜索\nEsc  关闭下拉 / 大图\n← →  大图切换上一张 / 下一张\nCtrl+Enter  卡组检查页直接检查\nCtrl+Z  构建器撤销上一步\n\n其他：\n· 搜索框点开有历史 + 热门卡组\n· 构建器「先手实测」后再点「AI 分析」\n· 卡图点击可放大，占位图点击可重试');
+  window.alert('快捷键：\n/  聚焦搜索\nEnter  搜索\nEsc  关闭下拉 / 大图；在游戏王 MD 页退出到会话\n← →  大图切换上一张 / 下一张\nCtrl+Enter  卡组检查页直接检查\nCtrl+Z  构建器撤销上一步\n\n其他：\n· 搜索框点开有历史 + 热门卡组\n· 构建器「先手实测」后再点「AI 分析」\n· 卡图点击可放大，占位图点击可重试');
 });
 $('grid-toggle').addEventListener('click', () => {
   if (relatedOpen) {
@@ -3757,6 +4270,20 @@ $('cache-clear').addEventListener('click', async () => {
 $('img-auto-retry').addEventListener('change', () => {
   apiPost('api/settings', { autoRetryImages: $('img-auto-retry').checked }).catch(() => {});
   setStatus($('img-auto-retry').checked ? '已开启：每 10 分钟自动重试失败卡图' : '已关闭自动重试');
+});
+$('auto-collapse-opt').addEventListener('change', () => {
+  const enabled = $('auto-collapse-opt').checked;
+  apiPost('api/settings', { autoCollapseSidebar: enabled }).catch(() => {});
+  postSidebarAutoCollapse();
+  setStatus(enabled ? '已开启进入页面自动收起侧栏' : '已关闭进入页面自动收起侧栏');
+});
+$('esc-exit').addEventListener('click', () => {
+  if (window.parent === window) {
+    setStatus('当前是独立打开，按 Esc 不会返回上一页', true);
+    return;
+  }
+  postSidebarExit();
+  setStatus('已退出游戏王 MD 页面');
 });
 $('img-cache-limit').addEventListener('change', () => {
   const value = Math.max(0, Number($('img-cache-limit').value) || 0);
@@ -3913,6 +4440,83 @@ document.addEventListener('click', (event) => {
 });
 
 $('go').addEventListener('click', search);
+$('b-fav-toggle').addEventListener('click', () => toggleFavoritesPanel());
+$('b-fav-close').addEventListener('click', () => toggleFavoritesPanel(false));
+document.addEventListener('dragstart', (event) => {
+  const buildRow = event.target.closest('.build-row[data-drag-section]');
+  const favRow = event.target.closest('[data-drag-favorite]');
+  const row = buildRow || favRow;
+  if (!row || !event.dataTransfer) return;
+  event.dataTransfer.effectAllowed = 'move';
+  const payload = favRow
+    ? { favorite: true, name: favRow.dataset.dragFavorite }
+    : { section: buildRow.dataset.dragSection, id: buildRow.dataset.dragId, name: buildRow.dataset.dragName };
+  event.dataTransfer.setData('text/plain', JSON.stringify(payload));
+  row.classList.add('dragging');
+});
+document.addEventListener('dragend', (event) => {
+  event.target.closest('.build-row, .fav-card')?.classList.remove('dragging');
+  for (const zone of document.querySelectorAll('.b-drop-zone.drop-hover')) zone.classList.remove('drop-hover');
+});
+document.addEventListener('dragover', (event) => {
+  const zone = event.target.closest('.b-drop-zone');
+  if (!zone) return;
+  event.preventDefault();
+  if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+  for (const other of document.querySelectorAll('.b-drop-zone.drop-hover')) {
+    if (other !== zone) other.classList.remove('drop-hover');
+  }
+  zone.classList.add('drop-hover');
+});
+document.addEventListener('dragleave', (event) => {
+  const zone = event.target.closest('.b-drop-zone');
+  if (zone && !zone.contains(event.relatedTarget)) zone.classList.remove('drop-hover');
+});
+document.addEventListener('drop', (event) => {
+  const zone = event.target.closest('.b-drop-zone');
+  if (!zone) return;
+  event.preventDefault();
+  zone.classList.remove('drop-hover');
+  let payload = null;
+  try { payload = JSON.parse(event.dataTransfer.getData('text/plain') || 'null'); } catch { /* ignore */ }
+  if (payload?.favorite) addFavoriteToBuild(payload.name, zone.dataset.dropSection);
+  else if (payload?.section) moveBuildCard(payload.section, payload.id, payload.name, zone.dataset.dropSection);
+});
+document.addEventListener('click', (event) => {
+  const fav = event.target.closest('[data-fav-name]');
+  if (fav) {
+    event.preventDefault();
+    toggleFavorite(fav.dataset.favName, fav.dataset.favId);
+    return;
+  }
+  const favAdd = event.target.closest('[data-fav-add-name]');
+  if (favAdd) {
+    event.preventDefault();
+    const card = resolveFavoriteCard(favAdd.dataset.favAddName, '');
+    if (card?.name) {
+      addToBuild(card, favAdd.dataset.favAddSection === 'extra' ? 'extra' : 'main');
+      setStatus(`已加入构建：${card.name}`);
+    }
+    return;
+  }
+  const favDel = event.target.closest('[data-fav-del]');
+  if (favDel) {
+    event.preventDefault();
+    toggleFavorite(favDel.dataset.favDel, '');
+  }
+});
+$('ai-abort').addEventListener('click', abortAISearch);
+$('save-results').addEventListener('click', saveCurrentResults);
+$('results-reset').addEventListener('click', resetSearchView);
+$('open-saved').addEventListener('click', () => { renderSavedList(); $('saved-modal').classList.remove('hidden'); });
+$('saved-close').addEventListener('click', () => $('saved-modal').classList.add('hidden'));
+$('saved-modal').addEventListener('click', (event) => { if (event.target === $('saved-modal')) $('saved-modal').classList.add('hidden'); });
+$('saved-list').addEventListener('click', (event) => {
+  const load = event.target.closest('[data-load-saved]');
+  if (load) { loadSavedResult(Number(load.dataset.loadSaved)); return; }
+  const del = event.target.closest('[data-del-saved]');
+  if (del) deleteSavedResult(Number(del.dataset.delSaved));
+});
 $('q').addEventListener('keydown', (event) => { if (event.key === 'Enter') search(); });
 $('alt-opt').addEventListener('change', () => {
   try { localStorage.setItem('md-alt-art', $('alt-opt').checked ? '1' : '0'); } catch { /* ignore */ }
@@ -3981,8 +4585,11 @@ try { restoreResults(); } catch { /* ignore */ }
 loadImageStats();
 loadDownloadStatus();
 checkMcpHealth();
+updateOfflineHint();
 initLanguage();
 loadSettings();
+updateResultsTools(false);
+toggleFavoritesPanel(localStorage.getItem('md-fav-open') === '1');
 if (initialParams.get('buildq')) {
   $('b-q').value = initialParams.get('buildq');
   switchTab('build');

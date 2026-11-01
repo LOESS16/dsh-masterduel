@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Unit tests
+        run: node --test test/deck.test.mjs test/hand-odds.test.mjs
+      - name: Syntax checks
+        run: |
+          node --check lib/index.js
+          node --check lib/hand-odds.js
+          node --check lib/deck.js
+          node --check lib/mcp-client.js
+          node --check lib/semantic.js
+      - name: Package contents
+        run: |
+          node scripts/verify-package.mjs
+          npm pack --dry-run
